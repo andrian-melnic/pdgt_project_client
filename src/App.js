@@ -1,10 +1,10 @@
 import React from 'react'
 import './App.css'
-import Map from './components/Map'
+import MapComponent from './components/MapComponent'
 
 function App () {
   return (
-    <Map />
+    <MapComponent />
   )
 }
 
