@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
 import { Icon } from 'semantic-ui-react'
 
 import PositionFail from './PositionFail'
@@ -30,6 +30,7 @@ class MapComponent extends Component {
       lng: null,
       zoom: 13,
       locations: [],
+      locationsAreAvailable: false,
       activeLocation: null
     }
   }
@@ -56,7 +57,7 @@ class MapComponent extends Component {
     axios.get('http://127.0.0.1:3000/drink_water/')
       .then(response => {
         const locations = response.data
-        this.setState({ locations })
+        this.setState({ locations, locationsAreAvailable: true })
       })
       .catch(error => {
         console.log(error)
@@ -73,7 +74,9 @@ class MapComponent extends Component {
       <div>
         {
           this.state.lat && this.state.lng
-            ? <Map center={[this.state.lat, this.state.lng]} zoom={this.state.zoom}>
+            ? <Map center={[this.state.lat, this.state.lng]}
+              zoom={this.state.zoom}
+              preferCanvas={true}>
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -87,20 +90,21 @@ class MapComponent extends Component {
                 </Popup>
               </Marker>
               {
-                this.state.locations.map(location => (
-                  <Marker
-                    key={location._id}
-                    position={[
-                      location.lat,
-                      location.lng
-                    ]}
-                    onclick={() => {
-                      this.setState({ activeLocation: location })
-                    }}
-                    icon={drinkingWaterLocationIcon}>
-
-                  </Marker>
-                ))
+                this.state.locationsAreAvailable
+                  ? this.state.locations.map(location => (
+                    <CircleMarker
+                      key={location._id}
+                      center={[
+                        location.lat,
+                        location.lng
+                      ]}
+                      onclick={() => {
+                        this.setState({ activeLocation: location })
+                      }}
+                      stroke={false}
+                      radius={5}/>
+                  ))
+                  : null
               }
               {
                 this.state.activeLocation && (
