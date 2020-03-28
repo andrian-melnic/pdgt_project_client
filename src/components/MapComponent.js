@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react'
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Icon } from 'leaflet'
 
 class MapComponent extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
-      latitude: null,
-      longitude: null
+      lat: null,
+      lng: null,
+      zoom: 13
     }
   }
 
@@ -14,8 +17,8 @@ class MapComponent extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         })
       },
       error => {
@@ -35,32 +38,27 @@ class MapComponent extends Component {
   // }
 
   render () {
+    // const position = [this.state.lat, this.state.lng]
     return (
       <div>
         {
-          this.state.latitude && this.state.longitude
-            ? <Map google={this.props.google} zoom={14}
-              initialCenter={{
-                lat: this.state.latitude,
-                lng: this.state.longitude
-              }}>
-
-              <Marker onClick={this.onMarkerClick}
-                name={'Current location'} />
-
-              {/* <InfoWindow onClose={this.onInfoWindowClose}>
-            <div>
-              <h1>{this.state.selectedPlace.name}</h1>
-            </div>
-          </InfoWindow> */}
+          this.state.lat && this.state.lng
+            ? <Map center={[this.state.lat, this.state.lng]} zoom={this.state.zoom}>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={[this.state.lat, this.state.lng]}>
+                <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+                </Popup>
+              </Marker>
             </Map>
-            : null
+            : <h1>oops</h1>
         }
       </div>
     )
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: ('AIzaSyDhq8q9zd7dkRcLhAULvy9ai256nPth07g')
-})(MapComponent)
+export default MapComponent
