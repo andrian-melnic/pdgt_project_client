@@ -1,8 +1,7 @@
 import React from 'react'
 import { Modal, Menu } from 'semantic-ui-react'
 import LoginForm from '../Forms/LoginForm'
-
-export default function LoginModal (props) {
+const LoginModal = (props) => {
   return (
     <Modal trigger={<Menu.Item content='Login' />}>
       <Modal.Header>Login</Modal.Header>
@@ -14,3 +13,5 @@ export default function LoginModal (props) {
     </Modal>
   )
 }
+
+export default LoginModal

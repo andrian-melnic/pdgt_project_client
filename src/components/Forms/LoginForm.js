@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Grid, Form, Button, Message } from 'semantic-ui-react'
+import { Grid, Form, Button, Message, Dimmer, Loader, Header } from 'semantic-ui-react'
+import AuthContext from '../../context/authContext'
 const axios = require('axios')
 
 class LoginForm extends Component {
@@ -7,11 +8,14 @@ class LoginForm extends Component {
     email: '',
     password: '',
 
+    isLoading: false,
     emailError: false,
+    passwordError: false,
     loginError: false,
     formError: false
   }
 
+  static contextType = AuthContext
   handleLogin = () => {
     const email = this.state.email
     const password = this.state.password
@@ -21,7 +25,7 @@ class LoginForm extends Component {
         password: password
       }
     }
-
+    this.setState({ isLoading: true })
     // Authentication -- fetch the request
     axios({
       url: 'http://localhost:3000/users/login',
@@ -32,11 +36,20 @@ class LoginForm extends Component {
       },
       crossDomain: true
     }).then(res => {
+      if (res.data.user.token) {
+        this.context.login(
+          res.data.user.token,
+          res.data.user.id,
+          res.data.user.exp
+        )
+      }
       this.setState({
+        isLoading: false,
         loggedIn: true
       })
-      console.log(res.data.user.token)
+      console.log(res.data.user)
     }).catch(error => {
+      this.setState({ isLoading: false })
       if (error.response.status === 401) {
         this.setState({
           loginError: true,
@@ -62,12 +75,17 @@ class LoginForm extends Component {
     e.preventDefault()
     let error = false
 
-    if (this.state.email === '' &&
-    !(this.state.email.match(emailFormat))) {
+    if (this.state.email === '') {
       this.setState({ emailError: true })
       error = true
     } else {
       this.setState({ emailError: false })
+    }
+    if (this.state.password === '') {
+      this.setState({ passwordError: true })
+      error = true
+    } else {
+      this.setState({ passwordError: false })
     }
     if (error) {
       this.setState({ formError: true })
@@ -81,11 +99,16 @@ class LoginForm extends Component {
     return (
       <div>
         {
-          this.state.loginError
-            ? <Message
-              error
-              content='Email o password non corretta'/>
-            : null
+          this.state.loginError &&
+          <Message
+            error
+            content='Email o password non corretta'/>
+        }
+        {
+          this.state.isLoading &&
+          <Dimmer active>
+            <Loader />
+          </Dimmer>
         }
         <Grid columns='equal'>
           <Grid.Row>
@@ -110,13 +133,6 @@ class LoginForm extends Component {
                     onChange={this.handleChange('email')}
                     error={this.state.emailError}
                   />
-                  {
-                    this.state.emailError
-                      ? <Message
-                        error
-                        content='Please enter a valid email address'/>
-                      : null
-                  }
 
                   <Form.Input
                     fluid
@@ -124,7 +140,8 @@ class LoginForm extends Component {
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
-                    onChange={this.handleChange('password')}/>
+                    onChange={this.handleChange('password')}
+                    error={this.state.passwordError}/>
                 </Form.Group>
                 <Button type="submit" fluid>Submit</Button>
               </Form>

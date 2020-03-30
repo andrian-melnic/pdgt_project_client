@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Responsive, Button, Menu, Dropdown } from 'semantic-ui-react'
 import LoginModal from './Modals/LoginModal'
+import AuthContext from '../context/authContext'
 // const menuOptions = {
 //   login: { name: 'login', content: 'Login' },
 //   logout: { name: 'logout', content: 'Logout' },
@@ -8,50 +9,61 @@ import LoginModal from './Modals/LoginModal'
 //   addLocation: { name: 'addLocation', content: 'Aggiungi posizione' }
 // }
 
-export default class ResponsiveExampleContent extends Component {
-  state = { active: 'null' }
+const NavMenu = (props) => (
+  <AuthContext.Consumer>
+    {(context) => {
+      return (
+        <Menu style={{ margin: '0' }}>
+          <Menu.Item header>App</Menu.Item>
+          {/* Desktop */}
+          {
+            !context.token &&
+            <React.Fragment>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <LoginModal />
+              </Responsive>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth} >
+                Register
+              </Responsive>
+            </React.Fragment>
+          }
+          {
+            context.token &&
+            <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+              <Menu.Item content='Logout' onClick={context.logout}/>
+            </Responsive>
+          }
 
-  handleItemClick = (e, { name }) => this.setState({ active: name })
+          {/* Mobile */}
+          {/* <Menu.Menu
+                position='right'>
+                <Responsive
+                  {...Responsive.onlyMobile}>
+                  <Menu.Item
+                    position='right'
+                    icon='content'
+                    className='button'
+                    onClick={this.handleContentClick}>
+                    <Dropdown>
+                      <Dropdown.Menu>
+                        <Dropdown.Item>
+                          Login
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                          Register
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Menu.Item>
 
-  render () {
-    return (
-      <Menu style={{ margin: '0' }}>
-        <Menu.Item header>App</Menu.Item>
-        {/* Desktop */}
-        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <LoginModal />
-        </Responsive>
+                </Responsive>
+              </Menu.Menu> */}
 
-        <Responsive minWidth={Responsive.onlyTablet.minWidth} >
-          Register
-        </Responsive>
+        </Menu>
+      )
+    }
+    }
+  </AuthContext.Consumer>
 
-        {/* Mobile */}
-        {/* <Menu.Menu
-          position='right'>
-          <Responsive
-            {...Responsive.onlyMobile}>
-            <Menu.Item
-              position='right'
-              icon='content'
-              className='button'
-              onClick={this.handleContentClick}>
-              <Dropdown>
-                <Dropdown.Menu>
-                  <Dropdown.Item>
-                    Login
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    Register
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Menu.Item>
-
-          </Responsive>
-        </Menu.Menu> */}
-
-      </Menu>
-    )
-  }
-}
+)
+export default NavMenu
