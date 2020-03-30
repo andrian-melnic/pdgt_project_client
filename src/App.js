@@ -1,10 +1,13 @@
 import React from 'react'
 import './App.css'
 import MapComponent from './components/MapComponent'
-
+import NavMenu from './components/NavMenu'
 function App () {
   return (
-    <MapComponent />
+    <div>
+      <NavMenu />
+      <MapComponent />
+    </div>
   )
 }
 

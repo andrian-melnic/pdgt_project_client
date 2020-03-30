@@ -28,7 +28,7 @@ class MapComponent extends Component {
     this.state = {
       lat: null,
       lng: null,
-      zoom: 13,
+      zoom: 10,
       locations: [],
       locationsAreAvailable: false,
       activeLocation: null
