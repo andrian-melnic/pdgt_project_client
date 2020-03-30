@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Responsive, Button, Menu, Dropdown } from 'semantic-ui-react'
 import LoginModal from './Modals/LoginModal'
+import RegisterModal from './Modals/RegisterModal'
 import AuthContext from '../context/authContext'
 // const menuOptions = {
 //   login: { name: 'login', content: 'Login' },
@@ -23,7 +24,7 @@ const NavMenu = (props) => (
                 <LoginModal />
               </Responsive>
               <Responsive minWidth={Responsive.onlyTablet.minWidth} >
-                Register
+                <RegisterModal />
               </Responsive>
             </React.Fragment>
           }

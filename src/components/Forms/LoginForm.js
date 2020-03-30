@@ -121,29 +121,25 @@ class LoginForm extends Component {
                 error={
                   this.state.formError
                 }>
+                <Form.Input
+                  fluid
+                  type='email'
+                  placeholder="Email"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.handleChange('email')}
+                  error={this.state.emailError}
+                />
 
-                <Form.Group widths="equal">
-
-                  <Form.Input
-                    fluid
-                    type='email'
-                    placeholder="Email"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.handleChange('email')}
-                    error={this.state.emailError}
-                  />
-
-                  <Form.Input
-                    fluid
-                    type='password'
-                    placeholder="Password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.handleChange('password')}
-                    error={this.state.passwordError}/>
-                </Form.Group>
-                <Button type="submit" fluid>Submit</Button>
+                <Form.Input
+                  fluid
+                  type='password'
+                  placeholder="Password"
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.handleChange('password')}
+                  error={this.state.passwordError}/>
+                <Button type="submit" fluid>Conferma</Button>
               </Form>
             </Grid.Column>
             <Grid.Column>
