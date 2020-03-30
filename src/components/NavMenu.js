@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Responsive, Button, Menu, Dropdown } from 'semantic-ui-react'
+import LoginModal from './Modals/LoginModal'
 // const menuOptions = {
 //   login: { name: 'login', content: 'Login' },
 //   logout: { name: 'logout', content: 'Logout' },
@@ -18,7 +19,7 @@ export default class ResponsiveExampleContent extends Component {
         <Menu.Item header>App</Menu.Item>
         {/* Desktop */}
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          Login
+          <LoginModal />
         </Responsive>
 
         <Responsive minWidth={Responsive.onlyTablet.minWidth} >
