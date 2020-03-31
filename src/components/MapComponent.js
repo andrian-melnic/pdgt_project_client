@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
 import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
-import { Icon, Dimmer, Loader } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Button } from 'semantic-ui-react'
+import AuthContext from '../context/authContext'
 
 import PositionFail from './PositionFail'
 // import { Icon } from 'leaflet'
@@ -27,8 +28,30 @@ class MapComponent extends Component {
 
     this.state = {
       zoom: 10,
-      activeLocation: null
+      activeLocation: null,
+      isLoading: false
     }
+  }
+
+  static contextType = AuthContext
+  deleteLocation = () => {
+    const activeLocation = this.state.activeLocation._id
+    this.setState({ isLoading: true })
+    axios({
+      url: `http://localhost:3000/drink_water/delete/${activeLocation}`,
+      method: 'DELETE',
+      headers: {
+        Authorization: `Token ${this.context.token}`,
+        'Content-Type': 'application/json'
+      },
+      crossDomain: true
+    }).then(res => {
+      console.log(res)
+      this.props.getAllLocations()
+      this.setState({ isLoading: false, activeLocation: null })
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   // getPosition = () => {
@@ -60,7 +83,7 @@ class MapComponent extends Component {
                 </Popup> */}
               </Marker>
               {
-                this.props.locationsAreAvailable
+                this.props.locationsAreAvailable && !this.state.isLoading
                   ? this.props.locations.map(location => (
                     <CircleMarker
                       key={location._id}
@@ -105,6 +128,16 @@ class MapComponent extends Component {
                           {this.state.activeLocation.comune}, {this.state.activeLocation.provincia}
                         </li>
                       </ul>
+                      {
+                        (this.state.activeLocation && this.context.token &&
+                        (this.context.userID === this.state.activeLocation.addedBy))
+                          ? <Button.Group>
+                            <Button icon='close' color='red' name='delete'
+                              onClick={() => this.deleteLocation()} />
+                            <Button icon='edit' color='yellow' name='edit' />
+                          </Button.Group>
+                          : null
+                      }
 
                     </div>
                   </Popup>
