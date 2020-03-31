@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
 import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader } from 'semantic-ui-react'
 
 import PositionFail from './PositionFail'
 // import { Icon } from 'leaflet'
@@ -15,53 +15,20 @@ const userPosIcon = L.divIcon({
   )
 })
 
-const drinkingWaterLocationIcon = L.divIcon({
-  className: 'custom icon',
-  html: ReactDOMServer.renderToString(
-    <Icon name="map marker" color="blue" size="big" />
-  )
-})
+// const drinkingWaterLocationIcon = L.divIcon({
+//   className: 'custom icon',
+//   html: ReactDOMServer.renderToString(
+//     <Icon name="map marker" color="blue" size="big" />
+//   )
+// })
 class MapComponent extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      lat: null,
-      lng: null,
       zoom: 10,
-      locations: [],
-      locationsAreAvailable: false,
       activeLocation: null
     }
-  }
-
-  componentDidMount () {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        })
-      },
-      error => {
-        console.log(error.message)
-        this.setState({ error: error })
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000
-      }
-    )
-
-    axios.get('http://127.0.0.1:3000/drink_water/')
-      .then(response => {
-        const locations = response.data
-        this.setState({ locations, locationsAreAvailable: true })
-      })
-      .catch(error => {
-        console.log(error)
-      })
   }
 
   // getPosition = () => {
@@ -73,8 +40,9 @@ class MapComponent extends Component {
     return (
       <div>
         {
-          this.state.lat && this.state.lng
-            ? <Map center={[this.state.lat, this.state.lng]}
+          this.props.lat && this.props.lng
+            ? <Map
+              center={[this.props.lat, this.props.lng]}
               zoom={this.state.zoom}
               preferCanvas={true}>
               <TileLayer
@@ -82,16 +50,18 @@ class MapComponent extends Component {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               />
               <Marker
-                position={[this.state.lat, this.state.lng]}
-                icon={userPosIcon}>
+                position={[this.props.lat, this.props.lng]}
+                icon={userPosIcon}
+                zIndexOffset={-1}
+                interactive={false}>
 
-                <Popup>
+                {/* <Popup>
                   <p>Tu sei qui :)</p>
-                </Popup>
+                </Popup> */}
               </Marker>
               {
-                this.state.locationsAreAvailable
-                  ? this.state.locations.map(location => (
+                this.props.locationsAreAvailable
+                  ? this.props.locations.map(location => (
                     <CircleMarker
                       key={location._id}
                       center={[
@@ -101,10 +71,14 @@ class MapComponent extends Component {
                       onclick={() => {
                         this.setState({ activeLocation: location })
                       }}
+                      radius={10}
+                      fillOpacity={1}
                       stroke={false}
-                      radius={5}/>
+                    />
                   ))
-                  : null
+                  : <Dimmer active>
+                    <Loader />
+                  </Dimmer>
               }
               {
                 this.state.activeLocation && (

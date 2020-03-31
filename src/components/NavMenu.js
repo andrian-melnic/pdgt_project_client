@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Responsive, Button, Menu, Dropdown } from 'semantic-ui-react'
+import { Responsive, Button, Menu, Dropdown, Icon } from 'semantic-ui-react'
 import LoginModal from './Modals/LoginModal'
 import RegisterModal from './Modals/RegisterModal'
+import AddLocationModal from './Modals/AddLocationModal'
 import AuthContext from '../context/authContext'
 // const menuOptions = {
 //   login: { name: 'login', content: 'Login' },
@@ -15,7 +16,10 @@ const NavMenu = (props) => (
     {(context) => {
       return (
         <Menu style={{ margin: '0' }}>
-          <Menu.Item header>App</Menu.Item>
+          <Menu.Item header>
+            <Icon name='tint' color='blue' />
+            App
+          </Menu.Item>
           {/* Desktop */}
           {
             !context.token &&
@@ -30,9 +34,18 @@ const NavMenu = (props) => (
           }
           {
             context.token &&
-            <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-              <Menu.Item content='Logout' onClick={context.logout}/>
-            </Responsive>
+            <React.Fragment>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <Menu.Item content='Logout' onClick={context.logout}/>
+              </Responsive>
+              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                <AddLocationModal
+                  lat={props.lat}
+                  lng={props.lng}
+                  getAllLocations={props.getAllLocations}
+                />
+              </Responsive>
+            </React.Fragment>
           }
 
           {/* Mobile */}

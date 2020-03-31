@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { Modal, Menu, Button } from 'semantic-ui-react'
-import LoginForm from '../Forms/LoginForm'
-class LoginModal extends Component {
-  state = { open: false }
+import AddLocationForm from '../Forms/AddLocationForm'
+// import LoginForm from '../Forms/LoginForm'
+class AddLocationModal extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { open: false }
+  }
 
   open = () => this.setState({ open: true })
   close = () => this.setState({ open: false })
@@ -13,11 +17,14 @@ class LoginModal extends Component {
         open = {open}
         onOpen={this.open}
         onClose={this.close}
-        trigger={<Menu.Item content='Login' />}>
-        <Modal.Header>Login</Modal.Header>
+        trigger={<Menu.Item content='Aggiungi posizione' />}>
+        <Modal.Header>Aggiungi posizione</Modal.Header>
         <Modal.Content>
-
-          <LoginForm closeModal={this.close}/>
+          <AddLocationForm
+            lat={this.props.lat}
+            lng={this.props.lng}
+            refresh={this.props.getAllLocations}
+          />
 
         </Modal.Content>
         <Modal.Actions>
@@ -27,4 +34,4 @@ class LoginModal extends Component {
     )
   }
 }
-export default LoginModal
+export default AddLocationModal

@@ -47,7 +47,6 @@ class LoginForm extends Component {
         isLoading: false,
         loggedIn: true
       })
-      console.log(res.data.user)
     }).catch(error => {
       this.setState({ isLoading: false })
       if (error.response.status === 401) {
@@ -55,9 +54,8 @@ class LoginForm extends Component {
           loginError: true,
           formError: true
         })
-      } else {
-        console.log(error)
       }
+      console.log(error)
     })
   }
 

@@ -16,9 +16,9 @@ class RegisterModal extends Component {
         trigger={<Menu.Item content='Registrati' />}>
         <Modal.Header>Registrati</Modal.Header>
         <Modal.Content>
-          <Modal.Description>
-            <RegisterForm closeModal={this.close}/>
-          </Modal.Description>
+
+          <RegisterForm closeModal={this.close}/>
+
         </Modal.Content>
         <Modal.Actions>
           <Button icon='close' content='Chiudi' onClick={this.close} />
