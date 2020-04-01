@@ -3,6 +3,7 @@ import ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
 import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
 import { Icon, Dimmer, Loader, Button } from 'semantic-ui-react'
+import EditModal from './Modals/EditModal'
 import AuthContext from '../context/authContext'
 
 import PositionFail from './PositionFail'
@@ -33,6 +34,10 @@ class MapComponent extends Component {
     }
   }
 
+  resetActiveLocation = () => {
+    this.setState({ activeLocation: null })
+  }
+
   static contextType = AuthContext
   deleteLocation = () => {
     const activeLocation = this.state.activeLocation._id
@@ -47,6 +52,7 @@ class MapComponent extends Component {
       crossDomain: true
     }).then(res => {
       console.log(res)
+      this.resetActiveLocation()
       this.props.getAllLocations()
       this.setState({ isLoading: false, activeLocation: null })
     }).catch(error => {
@@ -134,7 +140,15 @@ class MapComponent extends Component {
                           ? <Button.Group>
                             <Button icon='close' color='red' name='delete'
                               onClick={() => this.deleteLocation()} />
-                            <Button icon='edit' color='yellow' name='edit' />
+                            <EditModal
+                              lat={this.props.lat}
+                              lng={this.props.lng}
+                              getAllLocations={this.props.getAllLocations}
+                              activeLocation={this.state.activeLocation}
+                              resetActiveLocation={this.resetActiveLocation}
+                              setLat={this.props.setLat}
+                              setLng={this.props.setLng}
+                            />
                           </Button.Group>
                           : null
                       }

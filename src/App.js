@@ -17,8 +17,15 @@ class App extends Component {
 
   }
 
-  getAllLocations = () => {
+  setLat = (newLat) => {
+    this.setState({ lat: newLat })
+  }
 
+  setLng = (newLng) => {
+    this.setState({ lng: newLng })
+  }
+
+  getAllLocations = () => {
     this.setState({ locationsAreAvailable: false })
     axios.get('http://127.0.0.1:3000/drink_water/')
       .then(response => {
@@ -88,7 +95,10 @@ class App extends Component {
             lng={this.state.lng}
             getAllLocations={this.getAllLocations}
             locationsAreAvailable={this.state.locationsAreAvailable}
-            locations={this.state.locations} />
+            locations={this.state.locations}
+            setLat={this.setLat}
+            setLng={this.setLng}
+          />
         </AuthContext.Provider>
       </React.Fragment>
     )
