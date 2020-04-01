@@ -71,7 +71,6 @@ class MapComponent extends Component {
     })
   }
 
-
   render () {
     return (
       <React.Fragment>
@@ -135,25 +134,35 @@ class MapComponent extends Component {
                       {this.state.activeLocation.comune}, {this.state.activeLocation.provincia}
                     </li>
                   </ul>
-                  {
-                    (this.state.activeLocation && this.context.token &&
+                  <Button.Group>
+                    {
+                      (this.state.activeLocation && this.context.token &&
                         (this.context.userID === this.state.activeLocation.addedBy))
-                      ? <Button.Group>
-                        <Button icon='close' color='red' name='delete'
-                          onClick={() => this.deleteLocation()} />
-                        <EditModal
-                          userLat={this.props.userLat}
-                          userLng={this.props.userLng}
-                          getAllLocations={this.props.getAllLocations}
-                          activeLocation={this.state.activeLocation}
-                          updateActiveLocation={this.updateActiveLocation}
-                          resetActiveLocation={this.resetActiveLocation}
-                          setCenterLat={this.setCenterLat}
-                          setCenterLng={this.setCenterLng}
-                        />
-                      </Button.Group>
-                      : null
-                  }
+                        ? <React.Fragment>
+
+                          <Button icon='close' color='red' name='delete'
+                            onClick={() => this.deleteLocation()} />
+                          <EditModal
+                            userLat={this.props.userLat}
+                            userLng={this.props.userLng}
+                            getAllLocations={this.props.getAllLocations}
+                            activeLocation={this.state.activeLocation}
+                            updateActiveLocation={this.updateActiveLocation}
+                            resetActiveLocation={this.resetActiveLocation}
+                            setCenterLat={this.setCenterLat}
+                            setCenterLng={this.setCenterLng}
+                          />
+                        </React.Fragment>
+
+                        : null
+                    }
+                    <Button as='a'
+                      icon='location arrow' color='blue' name='navigate' type='button'
+                      href={'https://www.google.it/maps/dir/' +
+                          `${this.props.userLat},${this.props.userLng}/` +
+                          `${this.state.activeLocation.lat},${this.state.activeLocation.lng}/`}
+                    />
+                  </Button.Group>
 
                 </React.Fragment>
               </Popup>
