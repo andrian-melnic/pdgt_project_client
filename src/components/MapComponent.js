@@ -5,8 +5,6 @@ import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
 import { Icon, Dimmer, Loader, Button } from 'semantic-ui-react'
 import EditModal from './Modals/EditModal'
 import AuthContext from '../context/authContext'
-
-// import { Icon } from 'leaflet'
 import axios from 'axios'
 
 const userPosIcon = L.divIcon({
@@ -15,13 +13,6 @@ const userPosIcon = L.divIcon({
     <Icon name="map marker alternate" color="red" size="big" />
   )
 })
-
-// const drinkingWaterLocationIcon = L.divIcon({
-//   className: 'custom icon',
-//   html: ReactDOMServer.renderToString(
-//     <Icon name="map marker" color="blue" size="big" />
-//   )
-// })
 class MapComponent extends Component {
   constructor (props) {
     super(props)
@@ -80,12 +71,8 @@ class MapComponent extends Component {
     })
   }
 
-  // getPosition = () => {
-
-  // }
 
   render () {
-    // const position = [this.state.lat, this.state.lng]
     return (
       <React.Fragment>
         <Map
@@ -101,10 +88,6 @@ class MapComponent extends Component {
             icon={userPosIcon}
             zIndexOffset={-1}
             interactive={false}>
-
-            {/* <Popup>
-                  <p>Tu sei qui :)</p>
-                </Popup> */}
           </Marker>
           {
             this.props.locationsAreAvailable && !this.state.isLoading

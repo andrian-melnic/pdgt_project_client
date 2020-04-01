@@ -1,15 +1,9 @@
-import React, { Component } from 'react'
-import { Responsive, Button, Menu, Dropdown, Icon } from 'semantic-ui-react'
+import React from 'react'
+import { Menu, Icon } from 'semantic-ui-react'
 import LoginModal from './Modals/LoginModal'
 import RegisterModal from './Modals/RegisterModal'
 import AddLocationModal from './Modals/AddLocationModal'
 import AuthContext from '../context/authContext'
-// const menuOptions = {
-//   login: { name: 'login', content: 'Login' },
-//   logout: { name: 'logout', content: 'Logout' },
-//   register: { name: 'register', content: 'Registrati' },
-//   addLocation: { name: 'addLocation', content: 'Aggiungi posizione' }
-// }
 
 const NavMenu = (props) => (
   <AuthContext.Consumer>
@@ -24,27 +18,19 @@ const NavMenu = (props) => (
           {
             !context.token &&
             <React.Fragment>
-              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                <LoginModal />
-              </Responsive>
-              <Responsive minWidth={Responsive.onlyTablet.minWidth} >
-                <RegisterModal />
-              </Responsive>
+              <LoginModal />
+              <RegisterModal />
             </React.Fragment>
           }
           {
             context.token &&
             <React.Fragment>
-              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                <Menu.Item content='Logout' onClick={context.logout}/>
-              </Responsive>
-              <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                <AddLocationModal
-                  userLat={props.userLat}
-                  userLng={props.userLng}
-                  getAllLocations={props.getAllLocations}
-                />
-              </Responsive>
+              <Menu.Item content='Logout' onClick={context.logout}/>
+              <AddLocationModal
+                userLat={props.userLat}
+                userLng={props.userLng}
+                getAllLocations={props.getAllLocations}
+              />
             </React.Fragment>
           }
 

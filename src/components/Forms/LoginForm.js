@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Form, Button, Message, Dimmer, Loader, Header } from 'semantic-ui-react'
+import { Grid, Form, Button, Message, Dimmer, Loader } from 'semantic-ui-react'
 import AuthContext from '../../context/authContext'
 const axios = require('axios')
 
@@ -68,8 +68,6 @@ class LoginForm extends Component {
       loginError: false,
       formError: false
     })
-    const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    const passwordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
     e.preventDefault()
     let error = false
 
