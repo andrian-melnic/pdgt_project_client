@@ -95,7 +95,7 @@ class LoginForm extends Component {
 
   render () {
     return (
-      <div>
+      <React.Fragment>
         {
           this.state.loginError &&
           <Message
@@ -137,14 +137,14 @@ class LoginForm extends Component {
                   value={this.state.password}
                   onChange={this.handleChange('password')}
                   error={this.state.passwordError}/>
-                <Button type="submit" fluid>Conferma</Button>
+                <Button color='green' type="submit" fluid>Conferma</Button>
               </Form>
             </Grid.Column>
             <Grid.Column>
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </div>
+      </React.Fragment>
     )
   }
 }

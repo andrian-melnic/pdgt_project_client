@@ -96,8 +96,8 @@ class AddLocationForm extends Component {
             icon='map marker alternate'
             type='button'
             content='Posizione attuale'
-            onClick={() => this.setCoordiantes(this.props.lat, this.props.lng)} />
-          <Button type='submit'>Conferma</Button>
+            onClick={() => this.setCoordiantes(this.props.userLat, this.props.userLng)} />
+          <Button color='green' type='submit'>Conferma</Button>
         </Form>
       </React.Fragment>
 

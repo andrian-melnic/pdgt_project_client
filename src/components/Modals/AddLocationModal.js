@@ -21,8 +21,8 @@ class AddLocationModal extends Component {
         <Modal.Header>Aggiungi posizione</Modal.Header>
         <Modal.Content>
           <AddLocationForm
-            lat={this.props.lat}
-            lng={this.props.lng}
+            userLat={this.props.userLat}
+            userLng={this.props.userLng}
             refresh={this.props.getAllLocations}
           />
 

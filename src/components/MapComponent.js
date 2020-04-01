@@ -6,7 +6,6 @@ import { Icon, Dimmer, Loader, Button } from 'semantic-ui-react'
 import EditModal from './Modals/EditModal'
 import AuthContext from '../context/authContext'
 
-import PositionFail from './PositionFail'
 // import { Icon } from 'leaflet'
 import axios from 'axios'
 
@@ -28,10 +27,31 @@ class MapComponent extends Component {
     super(props)
 
     this.state = {
-      zoom: 10,
+      centerLat: this.props.userLat,
+      centerLng: this.props.userLng,
+      zoom: 12,
       activeLocation: null,
       isLoading: false
     }
+  }
+
+  setCenterLat = (newLat) => {
+    this.setState({ centerLat: newLat })
+  }
+
+  setCenterLng = (newLng) => {
+    this.setState({ centerLng: newLng })
+  }
+
+  updateActiveLocation = (lat, lng) => {
+    this.setState(prevState => ({
+      activeLocation: {
+        ...prevState.activeLocation,
+        lat: lat,
+        lng: lng
+      }
+    })
+    )
   }
 
   resetActiveLocation = () => {
@@ -67,100 +87,97 @@ class MapComponent extends Component {
   render () {
     // const position = [this.state.lat, this.state.lng]
     return (
-      <div>
-        {
-          this.props.lat && this.props.lng
-            ? <Map
-              center={[this.props.lat, this.props.lng]}
-              zoom={this.state.zoom}
-              preferCanvas={true}>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <Marker
-                position={[this.props.lat, this.props.lng]}
-                icon={userPosIcon}
-                zIndexOffset={-1}
-                interactive={false}>
+      <React.Fragment>
+        <Map
+          center={[this.state.centerLat, this.state.centerLng]}
+          zoom={this.state.zoom}
+          preferCanvas={true}>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker
+            position={[this.props.userLat, this.props.userLng]}
+            icon={userPosIcon}
+            zIndexOffset={-1}
+            interactive={false}>
 
-                {/* <Popup>
+            {/* <Popup>
                   <p>Tu sei qui :)</p>
                 </Popup> */}
-              </Marker>
-              {
-                this.props.locationsAreAvailable && !this.state.isLoading
-                  ? this.props.locations.map(location => (
-                    <CircleMarker
-                      key={location._id}
-                      center={[
-                        location.lat,
-                        location.lng
-                      ]}
-                      onclick={() => {
-                        this.setState({ activeLocation: location })
-                      }}
-                      radius={10}
-                      fillOpacity={1}
-                      stroke={false}
-                    />
-                  ))
-                  : <Dimmer active>
-                    <Loader />
-                  </Dimmer>
-              }
-              {
-                this.state.activeLocation && (
-                  <Popup
-                    position={[
-                      this.state.activeLocation.lat,
-                      this.state.activeLocation.lng
-                    ]}
-                    onClose={() => {
-                      this.setState({ activeLocation: null })
-                    }}>
-                    <div>
-                      <ul style={{
-                        listStyle: 'none',
-                        padding: '0'
-                      }}>
-                        <li>
+          </Marker>
+          {
+            this.props.locationsAreAvailable && !this.state.isLoading
+              ? this.props.locations.map(location => (
+                <CircleMarker
+                  key={location._id}
+                  center={[
+                    location.lat,
+                    location.lng
+                  ]}
+                  onclick={(e) => { this.setState({ activeLocation: location }) }}
+                  radius={5}
+                  fillOpacity={1}
+                  stroke={false}
+                  onMouseOver={(e) => e.target.setStyle({ radius: 10 })}
+                  onMouseOut={(e) => e.target.setStyle({ radius: 5 })}
+                />
+              ))
+              : <Dimmer active>
+                <Loader />
+              </Dimmer>
+          }
+          {
+            this.state.activeLocation && (
+              <Popup
+                position={[
+                  this.state.activeLocation.lat,
+                  this.state.activeLocation.lng
+                ]}
+                onClose={() => {
+                  this.setState({ activeLocation: null })
+                }}>
+                <React.Fragment>
+                  <ul style={{
+                    listStyle: 'none',
+                    padding: '0'
+                  }}>
+                    <li>
                            Lat: {this.state.activeLocation.lat}
-                        </li>
-                        <li>
+                    </li>
+                    <li>
                            Lng: {this.state.activeLocation.lng}
-                        </li>
-                        <li>
-                          {this.state.activeLocation.comune}, {this.state.activeLocation.provincia}
-                        </li>
-                      </ul>
-                      {
-                        (this.state.activeLocation && this.context.token &&
+                    </li>
+                    <li>
+                      {this.state.activeLocation.comune}, {this.state.activeLocation.provincia}
+                    </li>
+                  </ul>
+                  {
+                    (this.state.activeLocation && this.context.token &&
                         (this.context.userID === this.state.activeLocation.addedBy))
-                          ? <Button.Group>
-                            <Button icon='close' color='red' name='delete'
-                              onClick={() => this.deleteLocation()} />
-                            <EditModal
-                              lat={this.props.lat}
-                              lng={this.props.lng}
-                              getAllLocations={this.props.getAllLocations}
-                              activeLocation={this.state.activeLocation}
-                              resetActiveLocation={this.resetActiveLocation}
-                              setLat={this.props.setLat}
-                              setLng={this.props.setLng}
-                            />
-                          </Button.Group>
-                          : null
-                      }
+                      ? <Button.Group>
+                        <Button icon='close' color='red' name='delete'
+                          onClick={() => this.deleteLocation()} />
+                        <EditModal
+                          userLat={this.props.userLat}
+                          userLng={this.props.userLng}
+                          getAllLocations={this.props.getAllLocations}
+                          activeLocation={this.state.activeLocation}
+                          updateActiveLocation={this.updateActiveLocation}
+                          resetActiveLocation={this.resetActiveLocation}
+                          setCenterLat={this.setCenterLat}
+                          setCenterLng={this.setCenterLng}
+                        />
+                      </Button.Group>
+                      : null
+                  }
 
-                    </div>
-                  </Popup>
-                )
-              }
-            </Map>
-            : <PositionFail />
-        }
-      </div>
+                </React.Fragment>
+              </Popup>
+            )
+          }
+        </Map>
+      </React.Fragment>
     )
   }
 }

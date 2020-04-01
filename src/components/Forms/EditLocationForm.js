@@ -32,9 +32,9 @@ class EditLocationForm extends Component {
       latitude: this.state.lat,
       longitude: this.state.lng
     }
-    const activeLocationID = this.props.activeLocation._id
+    const activeLocation = this.props.activeLocation
     axios({
-      url: `http://localhost:3000/drink_water/update/${activeLocationID}`,
+      url: `http://localhost:3000/drink_water/update/${activeLocation._id}`,
       method: 'PUT',
       data: JSON.stringify(reqBody),
       headers: {
@@ -45,10 +45,10 @@ class EditLocationForm extends Component {
     }).then(res => {
       console.log(res.data)
       this.setState({ isLoading: false, added: true })
-      this.props.setLat(this.state.lat)
-      this.props.setLng(this.state.lng)
-      this.props.resetActiveLocation()
+      this.props.setCenterLat(this.state.lat)
+      this.props.setCenterLng(this.state.lng)
       this.props.refresh()
+      this.props.updateActiveLocation(this.state.lat, this.state.lng)
     }).catch(error => {
       this.setState({ isLoading: false, added: false, error: true })
       console.log(error)
@@ -100,8 +100,8 @@ class EditLocationForm extends Component {
             icon='map marker alternate'
             type='button'
             content='Posizione attuale'
-            onClick={() => this.setCoordiantes(this.props.lat, this.props.lng)} />
-          <Button type='submit'>Conferma</Button>
+            onClick={() => this.setCoordiantes(this.props.userLat, this.props.userLng)} />
+          <Button color='green' type='submit'>Conferma</Button>
         </Form>
       </React.Fragment>
 

@@ -18,16 +18,17 @@ class EditModal extends Component {
         onOpen={this.open}
         onClose={this.close}
         trigger={<Button type='button' icon='edit' color='yellow' name='edit' />}>
-        <Modal.Header>Aggiungi posizione</Modal.Header>
+        <Modal.Header>Modifica</Modal.Header>
         <Modal.Content>
           <EditLocationForm
-            lat={this.props.lat}
-            lng={this.props.lng}
+            userLat={this.props.userLat}
+            userLng={this.props.userLng}
             refresh={this.props.getAllLocations}
             activeLocation={this.props.activeLocation}
+            updateActiveLocation={this.props.updateActiveLocation}
             resetActiveLocation={this.props.resetActiveLocation}
-            setLat={this.props.setLat}
-            setLng={this.props.setLng}
+            setCenterLat={this.props.setCenterLat}
+            setCenterLng={this.props.setCenterLng}
           />
 
         </Modal.Content>

@@ -15,7 +15,7 @@ const NavMenu = (props) => (
   <AuthContext.Consumer>
     {(context) => {
       return (
-        <Menu style={{ margin: '0' }}>
+        <Menu style={{ margin: '0', borderRadius: '0' }} inverted>
           <Menu.Item header>
             <Icon name='tint' color='blue' />
             App
@@ -40,8 +40,8 @@ const NavMenu = (props) => (
               </Responsive>
               <Responsive minWidth={Responsive.onlyTablet.minWidth}>
                 <AddLocationModal
-                  lat={props.lat}
-                  lng={props.lng}
+                  userLat={props.userLat}
+                  userLng={props.userLng}
                   getAllLocations={props.getAllLocations}
                 />
               </Responsive>

@@ -105,7 +105,7 @@ class RegisterForm extends Component {
 
   render () {
     return (
-      <div>
+      <React.Fragment>
         {
           this.state.isLoading &&
           <Dimmer active>
@@ -201,7 +201,7 @@ class RegisterForm extends Component {
                           content='Passwords do not match'/>
                         : null
                     }
-                    <Button type="submit" fluid>Conferma</Button>
+                    <Button color='green' type="submit" fluid>Conferma</Button>
                   </Form>
                 </Grid.Column>
 
@@ -211,7 +211,7 @@ class RegisterForm extends Component {
             </Grid>
 
         }
-      </div>
+      </React.Fragment>
     )
   }
 }

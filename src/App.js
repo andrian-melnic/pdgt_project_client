@@ -3,26 +3,23 @@ import './App.css'
 import MapComponent from './components/MapComponent'
 import NavMenu from './components/NavMenu'
 import AuthContext from './context/authContext'
+
+import PositionFail from './components/PositionFail'
 import axios from 'axios'
 class App extends Component {
-  state = {
+  constructor (props) {
+    super(props)
+    this.state = {
 
-    lat: null,
-    lng: null,
-    locations: [],
-    locationsAreAvailable: false,
-    token: null,
-    userId: null,
-    tokenExp: null
+      userLat: null,
+      userLng: null,
+      locations: [],
+      locationsAreAvailable: false,
+      token: null,
+      userId: null,
+      tokenExp: null
 
-  }
-
-  setLat = (newLat) => {
-    this.setState({ lat: newLat })
-  }
-
-  setLng = (newLng) => {
-    this.setState({ lng: newLng })
+    }
   }
 
   getAllLocations = () => {
@@ -44,8 +41,8 @@ class App extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+          userLat: position.coords.latitude,
+          userLng: position.coords.longitude
         })
       },
       error => {
@@ -86,19 +83,24 @@ class App extends Component {
           login: this.login,
           logout: this.logout
         }}>
-          <NavMenu
-            lat={this.state.lat}
-            lng={this.state.lng}
-            getAllLocations={this.getAllLocations} />
-          <MapComponent
-            lat={this.state.lat}
-            lng={this.state.lng}
-            getAllLocations={this.getAllLocations}
-            locationsAreAvailable={this.state.locationsAreAvailable}
-            locations={this.state.locations}
-            setLat={this.setLat}
-            setLng={this.setLng}
-          />
+          {
+            this.state.userLat && this.state.userLng
+              ? <React.Fragment>
+
+                <NavMenu style={{ position: 'fixed' }}
+                  userLat={this.state.userLat}
+                  userLng={this.state.userLng}
+                  getAllLocations={this.getAllLocations} />
+                <MapComponent
+                  userLat={this.state.userLat}
+                  userLng={this.state.userLng}
+                  getAllLocations={this.getAllLocations}
+                  locationsAreAvailable={this.state.locationsAreAvailable}
+                  locations={this.state.locations}
+                />
+              </React.Fragment>
+              : <PositionFail />
+          }
         </AuthContext.Provider>
       </React.Fragment>
     )
