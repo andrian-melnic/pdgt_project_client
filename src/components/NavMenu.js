@@ -10,7 +10,7 @@ const NavMenu = (props) => (
   <AuthContext.Consumer>
     {(context) => {
       return (
-        <Menu style={{ margin: '0', borderRadius: '0' }} inverted>
+        <Menu style={{ margin: '0', borderRadius: '0', height: '45px' }} inverted>
           <Menu.Item header>
             <Icon name='tint' color='blue' />
             App
@@ -36,7 +36,7 @@ const NavMenu = (props) => (
           }
           <Responsive minWidth={Responsive.onlyTablet.minWidth}>
             <Menu.Item>
-              <Input placeholder='Cerca' onChange={props.changeFilter}/>
+              <Input placeholder='Cerca' size='mini' onChange={props.changeFilter}/>
             </Menu.Item>
           </Responsive>
 
