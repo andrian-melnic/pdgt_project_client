@@ -1,7 +1,8 @@
 import React from 'react'
-import { Menu, Icon, Input } from 'semantic-ui-react'
+import { Menu, Icon, Input, Responsive } from 'semantic-ui-react'
 import LoginModal from './Modals/LoginModal'
 import RegisterModal from './Modals/RegisterModal'
+import SearchModal from './Modals/SearchModal'
 import AddLocationModal from './Modals/AddLocationModal'
 import AuthContext from '../context/authContext'
 
@@ -33,11 +34,18 @@ const NavMenu = (props) => (
               />
             </React.Fragment>
           }
-          <Menu.Item>
-            <Input placeholder='Cerca' onChange={props.changeFilter}/>
-          </Menu.Item>
+          <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+            <Menu.Item>
+              <Input placeholder='Cerca' onChange={props.changeFilter}/>
+            </Menu.Item>
+          </Responsive>
 
           {/* Mobile */}
+          <Responsive {...Responsive.onlyMobile}>
+            <Menu.Item>
+              <SearchModal changeFilter={props.changeFilter}/>
+            </Menu.Item>
+          </Responsive>
           {/* <Menu.Menu
                 position='right'>
                 <Responsive
