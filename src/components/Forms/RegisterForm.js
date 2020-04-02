@@ -31,7 +31,7 @@ class RegisterForm extends Component {
     this.setState({ isLoading: true })
     // Authentication -- fetch the request
     axios({
-      url: 'http://localhost:3000/users/register',
+      url: '/users/register',
       method: 'POST',
       data: JSON.stringify(reqBody),
       headers: {

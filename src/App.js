@@ -36,7 +36,7 @@ class App extends Component {
       results = this.state.locations
     } else {
       results = this.state.locations.filter((loc) => {
-        return loc.address.includes(this.state.filter)
+        return loc.address.toLowerCase().includes(this.state.filter.toLowerCase())
       })
     }
     this.setState({ filteredLocations: results })
@@ -44,7 +44,7 @@ class App extends Component {
 
   getAllLocations = () => {
     this.setState({ locationsAreAvailable: false })
-    axios.get('http://127.0.0.1:3000/drink_water/')
+    axios.get('/drink_water/')
       .then(response => {
         const locations = response.data
         this.setState({

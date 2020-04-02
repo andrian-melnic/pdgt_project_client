@@ -33,7 +33,7 @@ class AddLocationForm extends Component {
       longitude: this.state.lng
     }
     axios({
-      url: 'http://localhost:3000/drink_water/new',
+      url: '/drink_water/new',
       method: 'POST',
       data: JSON.stringify(reqBody),
       headers: {

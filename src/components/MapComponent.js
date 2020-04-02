@@ -20,7 +20,7 @@ class MapComponent extends Component {
     this.state = {
       centerLat: this.props.userLat,
       centerLng: this.props.userLng,
-      zoom: 12,
+      zoom: 9,
       activeLocation: null,
       isLoading: false
     }
@@ -75,7 +75,7 @@ class MapComponent extends Component {
     const activeLocation = this.state.activeLocation._id
     this.setState({ isLoading: true })
     axios({
-      url: `http://localhost:3000/drink_water/delete/${activeLocation}`,
+      url: `/drink_water/delete/${activeLocation}`,
       method: 'DELETE',
       headers: {
         Authorization: `Token ${this.context.token}`,
@@ -120,8 +120,8 @@ class MapComponent extends Component {
                   ]}
                   onclick={(e) => { this.setState({ activeLocation: location }) }}
                   radius={5}
-                  fillOpacity={1}
-                  stroke={false}
+                  fillOpacity={0.5}
+                  weight={1}
                   onMouseOver={(e) => e.target.setStyle({ radius: 10 })}
                   onMouseOut={(e) => e.target.setStyle({ radius: 5 })}
                 />

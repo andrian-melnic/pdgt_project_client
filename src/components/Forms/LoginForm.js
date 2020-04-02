@@ -28,7 +28,7 @@ class LoginForm extends Component {
     this.setState({ isLoading: true })
     // Authentication -- fetch the request
     axios({
-      url: 'http://localhost:3000/users/login',
+      url: '/users/login',
       method: 'POST',
       data: JSON.stringify(reqBody),
       headers: {
