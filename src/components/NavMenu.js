@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Icon } from 'semantic-ui-react'
+import { Menu, Icon, Input } from 'semantic-ui-react'
 import LoginModal from './Modals/LoginModal'
 import RegisterModal from './Modals/RegisterModal'
 import AddLocationModal from './Modals/AddLocationModal'
@@ -33,6 +33,9 @@ const NavMenu = (props) => (
               />
             </React.Fragment>
           }
+          <Menu.Item>
+            <Input placeholder='Cerca' onChange={props.changeFilter}/>
+          </Menu.Item>
 
           {/* Mobile */}
           {/* <Menu.Menu

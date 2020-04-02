@@ -45,6 +45,27 @@ class MapComponent extends Component {
     )
   }
 
+  reverseGeocode () {
+    axios({
+      url: `https://nominatim.openstreetmap.org/reverse?format=geojson&lat=${this.state.activeLocation.lat}&lon=${this.state.activeLocation.lng}`,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      crossDomain: true
+    }).then(res => {
+      this.setState(prevState => ({
+        activeLocation: {
+          ...prevState.activeLocation,
+          address: res.data.features[0].properties.display_name
+        }
+      })
+      )
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
   resetActiveLocation = () => {
     this.setState({ activeLocation: null })
   }
@@ -130,9 +151,9 @@ class MapComponent extends Component {
                     <li>
                            Lng: {this.state.activeLocation.lng}
                     </li>
-                    <li>
-                      {this.state.activeLocation.comune}, {this.state.activeLocation.provincia}
-                    </li>
+
+                    <li>{this.state.activeLocation.address}</li>
+
                   </ul>
                   <Button.Group>
                     {

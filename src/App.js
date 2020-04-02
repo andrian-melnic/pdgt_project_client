@@ -15,11 +15,31 @@ class App extends Component {
       userLng: null,
       locations: [],
       locationsAreAvailable: false,
+      filter: '',
+      filteredLocations: [],
       token: null,
       userId: null,
       tokenExp: null
 
     }
+  }
+
+  handleChangeFilter = (event) => {
+    this.setState({ filter: event.target.value }, () => {
+      this.filterLocations()
+    })
+  }
+
+  filterLocations = () => {
+    let results
+    if (this.state.filter === '' || !this.state.filter.match(/^(?!\s*$).+/)) {
+      results = this.state.locations
+    } else {
+      results = this.state.locations.filter((loc) => {
+        return loc.address.includes(this.state.filter)
+      })
+    }
+    this.setState({ filteredLocations: results })
   }
 
   getAllLocations = () => {
@@ -31,6 +51,7 @@ class App extends Component {
           locations,
           locationsAreAvailable: true
         })
+        this.filterLocations()
       })
       .catch(error => {
         console.log(error)
@@ -90,13 +111,14 @@ class App extends Component {
                 <NavMenu style={{ position: 'fixed' }}
                   userLat={this.state.userLat}
                   userLng={this.state.userLng}
-                  getAllLocations={this.getAllLocations} />
+                  getAllLocations={this.getAllLocations}
+                  changeFilter={this.handleChangeFilter} />
                 <MapComponent
                   userLat={this.state.userLat}
                   userLng={this.state.userLng}
                   getAllLocations={this.getAllLocations}
                   locationsAreAvailable={this.state.locationsAreAvailable}
-                  locations={this.state.locations}
+                  locations={this.state.filteredLocations}
                 />
               </React.Fragment>
               : <PositionFail />
