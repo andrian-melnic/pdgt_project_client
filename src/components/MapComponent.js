@@ -119,7 +119,7 @@ class MapComponent extends Component {
                     location.lng
                   ]}
                   onclick={(e) => { this.setState({ activeLocation: location }) }}
-                  radius={5}
+                  radius={8}
                   fillOpacity={0.5}
                   weight={1}
                   onMouseOver={(e) => e.target.setStyle({ radius: 10 })}
