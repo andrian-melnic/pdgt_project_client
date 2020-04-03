@@ -123,7 +123,7 @@ class MapComponent extends Component {
                   fillOpacity={0.5}
                   weight={1}
                   onMouseOver={(e) => e.target.setStyle({ radius: 10 })}
-                  onMouseOut={(e) => e.target.setStyle({ radius: 5 })}
+                  onMouseOut={(e) => e.target.setStyle({ radius: 8 })}
                 />
               ))
               : <Dimmer active>
