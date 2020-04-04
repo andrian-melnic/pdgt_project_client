@@ -34,7 +34,7 @@ class EditLocationForm extends Component {
     }
     const activeLocation = this.props.activeLocation
     axios({
-      url: `/drink_water/update/${activeLocation._id}`,
+      url: `/drink_water/location/update?id=${activeLocation._id}`,
       method: 'PUT',
       data: JSON.stringify(reqBody),
       headers: {

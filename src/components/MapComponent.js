@@ -75,7 +75,7 @@ class MapComponent extends Component {
     const activeLocation = this.state.activeLocation._id
     this.setState({ isLoading: true })
     axios({
-      url: `/drink_water/delete/${activeLocation}`,
+      url: `/drink_water/location/delete?id=${activeLocation}`,
       method: 'DELETE',
       headers: {
         Authorization: `Token ${this.context.token}`,
