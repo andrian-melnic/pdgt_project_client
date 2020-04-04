@@ -78,7 +78,7 @@ class MapComponent extends Component {
       url: `/drink_water/location/delete?id=${activeLocation}`,
       method: 'DELETE',
       headers: {
-        Authorization: `Token ${this.context.token}`,
+        Authorization: `Bearer ${this.context.token}`,
         'Content-Type': 'application/json'
       },
       crossDomain: true

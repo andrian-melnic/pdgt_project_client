@@ -37,7 +37,7 @@ class AddLocationForm extends Component {
       method: 'POST',
       data: JSON.stringify(reqBody),
       headers: {
-        Authorization: `Token ${this.context.token}`,
+        Authorization: `Bearer ${this.context.token}`,
         'Content-Type': 'application/json'
       },
       crossDomain: true
