@@ -182,6 +182,8 @@ class MapComponent extends Component {
                       href={'https://www.google.it/maps/dir/' +
                           `${this.props.userLat},${this.props.userLng}/` +
                           `${this.state.activeLocation.lat},${this.state.activeLocation.lng}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     />
                   </Button.Group>
 
