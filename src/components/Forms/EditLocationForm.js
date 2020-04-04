@@ -101,7 +101,14 @@ class EditLocationForm extends Component {
             type='button'
             content='Posizione attuale'
             onClick={() => this.setCoordiantes(this.props.userLat, this.props.userLng)} />
-          <Button color='green' type='submit'>Conferma</Button>
+            {
+              this.state.lat === '' && this.state.lng === ''
+              ?
+              <Button color='green' type='submit' disabled>Conferma</Button>
+              :
+              <Button color='green' type='submit'>Conferma</Button>
+            }
+          
         </Form>
       </React.Fragment>
 
