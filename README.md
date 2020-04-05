@@ -1,68 +1,112 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Studente 
+- Nome: Andrian
+- Cognome: Melnic
+- Matricola: 279412
 
-## Available Scripts
+# Repository del client per il progetto PDGT
+### Client
+  Il client è una single page application realizzata utilizzando ReactJS. Questa
+libreria permette di creare una UI che si aggiorna ad ogni cambio
+di stato dei suoi componenti. Inoltre ho utilizzato il framework CSS
+Semantic UI nella sua versione per React per alcuni elementi dell' interfaccia.
 
-In the project directory, you can run:
+L'app è stata inizializzata tramite `npx create-react-app` ed è costituita da diversi componenti: modal, form, bottoni, etc. ma quello principale è MapComponent che si occupa di effettuare il rendering della mappa. 
 
-### `npm start`
+La mappa è stata realizzata grazie a una libreria JS chiamata Leaflet e 
+anch'essa mette a disposizione una libreria di componenti per React. 
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Elenco dei moduli npm utilizzati:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```js
+"@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "leaflet": "^1.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-leaflet": "^2.6.3",
+    "react-scripts": "3.4.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2"
+```
+  Essenzialmente il componente principale (App) esegue il rendering della mappa 
+e della barra di navigazione solamente se l'applicazione è riuscita a ottenere
+la posizione dell'utente tramite browser, altrimenti mostra una pagina d'errore.
 
-### `npm test`
+  Una volta ottenuta la posizione e i componenti figli sono stati renderizzati
+nel DOM, App esegue una richiesta all server per ottenere tuttle le posizioni
+e infine salvarle in un array all interno del suo stato. I componenti figli
+possono accedere a tale array, e altre proprietà/ funzioni, tramite le props.
+Quando le posizioni sono pronte, MapComponent aggiunge un punpo sulla mappa
+per ogni posizione. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Varie operazioni rese possibili dall'app:
+  - Filtrare le posizioni da visualizzare tramite una barra di ricerca.
+  - Registrarsi/ Login/ Logout.
+  - Inserire una posizione tramite coordinate (loggato).
+  - Selezionando un punto sulla mappa:
+    - Modificare le coordinate (se loggato e proprietario).
+    - Eliminare (se loggato e proprietario).
+    - Iniziare la navigazione tramite Google Maps (nessuna restrizione).
 
-### `npm run build`
+L' autenticazione consiste nel salvare le info dell'utente (id, email e token)
+in un React context accessibile globalmente da tutti i componenti tramite un
+context provider. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Le richieste al server API sono eseguite tramite axios.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+I vari elementi UI sono stati implementati tramite Semantic UI React.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Problemi da risolvere in futuro:
+  - Il token viene perso una volta chiuso il tab o si naviga verso un altro
+  sito. Utente costretto a riefettuare il login.
+  - Aggiunta/ modifica posibili solamente tramite coordinate.
+  - Qualche imprecisione con dispositivi touch.
+  
+## Utilizzo del servizio Web
 
-### `npm run eject`
+### Demo
+Aprire il seguente link:  https://pdgt-project-app.herokuapp.com.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Il primo avvio può sembrare lento perchè Heroku deve avviare il dyno.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+L'app funziona sia su desktop che su smartphone.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Screenshot
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+#### - Primo avvio (autorizzazione geolocalizzazione)
+![](../screens/Annotazione%202020-04-05%20120614.png)
+#### - Mappa (utente non loggato)
+![](../screens/Annotazione%202020-04-05%20120633.png)
+#### - Zoom e selezione posizione (non loggato)
+![](../screens/Annotazione%202020-04-05%20120703.png)
+#### - Navigazione con Google Maps verso il punto selezionato
+![](../screens/Annotazione%202020-04-05%20120815.png)
+#### - Registrazione errore (password debole)
+![](../screens/Annotazione%202020-04-05%20120910.png)
+#### - Registrazione errore (password non combaciano)
+![](../screens/Annotazione%202020-04-05%20120947.png)
+#### - Registrazione errore (utente già esistente)
+![](../screens/Annotazione%202020-04-05%20121006.png)
+#### - Registrato con successo
+![](../screens/Annotazione%202020-04-05%20121037.png)
+#### - Login errore (email o password errati)
+![](../screens/Annotazione%202020-04-05%20121110.png)
+#### - Mappa (utente loggato)
+![](../screens/Annotazione%202020-04-05%20121123.png)
+#### - Aggiungi posizione (premuto su Posizione attuale)
+![](../screens/Annotazione%202020-04-05%20121149.png)
+#### - Posizione aggiunta
+![](../screens/Annotazione%202020-04-05%20121239.png)
+#### - Modifica coordinate posizione
+![](../screens/Annotazione%202020-04-05%20121505.png)
+#### - Coordinate modificate
+![](../screens/Annotazione%202020-04-05%20121539.png)
+#### - Posizione elimiata
+![](../screens/Annotazione%202020-04-05%20121557.png)
+#### - Ricerca
+![](../screens/Annotazione%202020-04-05%20121634.png)
+![](../screens/Annotazione%202020-04-05%20121651.png)
+![](../screens/Annotazione%202020-04-05%20121734.png)
+![](../screens/Annotazione%202020-04-05%20121822.png)
